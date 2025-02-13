@@ -7,7 +7,7 @@
 #include "f73-rncontrol-lib/button.h"
 #include "f73-rncontrol-lib/led.h"
 
-volatile uint8_t data_isr = 0; // Globale Variable Wichtig: Schlüsselwort "volatile" damit die Variable immer direkt aus dem Specher geladen wird.
+volatile uint8_t data_isr = 0; // Globale Variable Wichtig: Schlüsselwort "volatile" damit die Variable immer direkt aus dem Speicher geladen wird.
 
 int main()
 {

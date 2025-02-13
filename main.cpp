@@ -7,7 +7,7 @@
 #include "f73-rncontrol-lib/button.h"
 #include "f73-rncontrol-lib/led.h"
 
-volatile uint8_t data = 0;
+volatile uint8_t data_isr = 0;
 
 int main()
 {
@@ -21,13 +21,17 @@ int main()
   ledInit();
 
   uint8_t data_old = 0;
+  uint8_t data = 0;
 
   printf("LED-Steuerung\n\r0=LED0 (an/aus) .... 7 = LED7\n\r "); //  String senden
 
   while (1)
   {
 
-    // data=uartGetc(); // Zeichen von Tastatur einlesen
+    cli(); // Interrupts deaktivieren
+    data = data_isr; // Global Variable "sicher" schreiben
+    sei(); // Interrupts aktivieren
+
     if (data != data_old)
     {
       data_old = data;
@@ -51,7 +55,7 @@ int main()
 ISR(USART_RXC_vect)
 {
 
-  data = UDR;
+  data_isr = UDR;
 
-  printf("\n\r USART ISR RX\n\r ");
+  //printf("\n\r USART ISR RX\n\r "); // Dauert zu lange , nur zum debuggen
 }
